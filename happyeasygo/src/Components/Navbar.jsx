@@ -1,4 +1,4 @@
-import { Box, Image, Menu, MenuButton, MenuList, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Image, Menu, MenuButton, MenuList, Text, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { GiBattery100 } from 'react-icons/gi';
@@ -63,7 +63,7 @@ export const Navbar = () => {
               {/* <Button bg="white" color="#108163" border="1px solid #108163" px={6} py={4} borderRadius="5px" size='xs' _hover={{bg:"#108163", color:"white"}}>
                 Sign In
               </Button> */}
-              <SignIn />
+              <Button bg="white" color="#108163" border="1px solid #108163" px={6} py={4} borderRadius="5px" size='xs' _hover={{bg:"#108163", color:"white"}}><SignIn /></Button>
           </Box>
         </Box>
       </Box>
