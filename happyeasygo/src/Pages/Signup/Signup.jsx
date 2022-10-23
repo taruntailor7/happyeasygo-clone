@@ -1,6 +1,7 @@
 import { Box, Button, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
 import React, { useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { getRegister } from '../../Redux/Signup/action'
 const initState = {
     name: "",
     email: "",
@@ -12,20 +13,22 @@ const initState = {
 
 export const Signup = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [registeredUser, setRegisteredUser] = useState(initState)
+    const[userData, setUserData] = useState(initState);
+    const dispatch = useDispatch()
 
-    const handleChange = (e)=>{
-        let {name, value} = e.target
-        if(name==="mobile"){
-            value = Number(value)
-        }
-        setRegisteredUser({...registeredUser, [name]: value})
+    const {res} = useSelector((state) => state)
+    console.log(res,"response from redux")
+
+    const handleChange = ((e) => {
+        let {name, value} =  e.target;
+        setUserData({...userData, [name]:value});
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        dispatch(getRegister(userData))
     }
-    console.log(registeredUser,"reg user obj");
-
-    const handleSubmit = ()=>{
-
-    }
+    
 
     return (
         <>
@@ -45,12 +48,12 @@ export const Signup = () => {
                     <Box mt={3} w="100%" bg="white" p={2}>Google</Box   >
                     <Text mt={3}>Sign in with mobile or email</Text>
                     <form onSubmit={handleSubmit}>
-                        <Input type="text" name="name" bg="white" placeholder='Enter Name' size='lg' mt={3} borderRadius="5px" value={registeredUser.name} onChange={handleChange} required/>
-                        <Input type="email" name="email" bg="white" placeholder='Enter Email' size='lg' mt={3} borderRadius="5px" value={registeredUser.email} onChange={handleChange} required/>
-                        <Input type="password"  name="password" bg="white" placeholder='Enter Password' size='lg' mt={3} borderRadius="5px" value={registeredUser.password} onChange={handleChange} required/>
-                        <Input type="text"  name="username" bg="white" placeholder='Enter Username' size='lg' mt={3} borderRadius="5px" value={registeredUser.username} onChange={handleChange} required/>
-                        <Input type="number" name="mobile" bg="white" placeholder='Enter Mobile Number' size='lg' mt={3} borderRadius="5px" value={registeredUser.mobile} onChange={handleChange} required/>
-                        <Input type="text"  name="description" bg="white" placeholder='Enter Description' size='lg' mt={3} borderRadius="5px" value={registeredUser.description} onChange={handleChange} required/>
+                        <Input type="text" name="name" bg="white" placeholder='Enter Name' size='lg' mt={3} borderRadius="5px" value={userData.name} onChange={handleChange} required/>
+                        <Input type="email" name="email" bg="white" placeholder='Enter Email' size='lg' mt={3} borderRadius="5px" value={userData.email} onChange={handleChange} required/>
+                        <Input type="password"  name="password" bg="white" placeholder='Enter Password' size='lg' mt={3} borderRadius="5px" value={userData.password} onChange={handleChange} required/>
+                        <Input type="text"  name="username" bg="white" placeholder='Enter Username' size='lg' mt={3} borderRadius="5px" value={userData.username} onChange={handleChange} required/>
+                        <Input type="number" name="mobile" bg="white" placeholder='Enter Mobile Number' size='lg' mt={3} borderRadius="5px" value={userData.mobile} onChange={handleChange} required/>
+                        <Input type="text"  name="description" bg="white" placeholder='Enter Description' size='lg' mt={3} borderRadius="5px" value={userData.description} onChange={handleChange} required/>
                         <Box display="flex" justifyContent="flex-end" >
                             <Text mt={2} color="#306844" fontWeight="500">Forgot Password</Text>
                         </Box>
