@@ -1,6 +1,6 @@
 import { Box, Button, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getRegister } from '../../Redux/Signup/action'
 const initState = {
     name: "",
@@ -16,8 +16,8 @@ export const Signup = () => {
     const[userData, setUserData] = useState(initState);
     const dispatch = useDispatch()
 
-    const {res} = useSelector((state) => state)
-    console.log(res,"response from redux")
+    // const {res} = useSelector((state) => state)
+    // console.log(res,"response from redux")
 
     const handleChange = ((e) => {
         let {name, value} =  e.target;

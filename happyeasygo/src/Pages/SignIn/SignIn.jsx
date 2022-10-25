@@ -1,8 +1,41 @@
 import { Box, Button, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
+
+const initState = {
+    username:"",
+    password:"",
+}
 
 export const SignIn = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [userData, setUserData] = useState(initState)
+
+    const handleChange = (e)=>{
+        let {name, value} = e.target;
+        setUserData({...userData, [name]:value})
+    }
+    console.log(userData);
+
+    const handleSubmit = async (e)=>{
+        console.log("handleSubmit called");
+        e.preventDefault()
+        let loginRes = await fetch(`https://masai-api-mocker.herokuapp.com/auth/login`,{
+            method: 'POST',
+            body: JSON.stringify(userData),
+            headers : {
+                'content-type': 'application/json'
+            }
+        });
+        let res2 = await loginRes.json();
+        if(res2.error){
+            alert(res2.message);
+        }
+        else{
+            alert("Logged In Succesfully!");
+        }
+        console.log(res2,"res from login");
+    }
+
 
     return (
         <>
@@ -24,9 +57,9 @@ export const SignIn = () => {
                     <Box mt={3} w="100%" bg="white" p={2}>Google</Box>
                     <Box mt={3} w="100%" bg="white" p={2}>Google</Box>
                     <Text mt={3}>Sign in with mobile or email</Text>
-                    <form action="" >
-                        <Input type="email" name="email" bg="white" placeholder='Enter Email' size='lg' mt={5} borderRadius="5px" required/>
-                        <Input type="password"  name="password" bg="white" placeholder='Enter Password' size='lg' mt={5} borderRadius="5px" required/>
+                    <form onSubmit={handleSubmit} >
+                        <Input type="text" name="username" value={userData.username} onChange={handleChange} bg="white" placeholder='Enter Email' size='lg' mt={5} borderRadius="5px" required/>
+                        <Input type="password"  name="password" value={userData.password} onChange={handleChange} bg="white" placeholder='Enter Password' size='lg' mt={5} borderRadius="5px" required/>
                         <Box display="flex" justifyContent="flex-end" >
                             <Text mt={2} color="#306844" fontWeight="500">Forgot Password</Text>
                         </Box>
